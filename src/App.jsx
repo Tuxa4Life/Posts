@@ -33,7 +33,8 @@ const App = () => {
             <div className="ui button primary" onClick={() => setFormState(!formState)} style={{
                 position: 'fixed',
                 top: '10px',
-                right: '10px'
+                right: '10px',
+                zIndex: '1',
             }}>Post</div>
             { formState ? <Form data={data} setData={setData} closeForm={() => setFormState(false)}/> : null }
             { content }
