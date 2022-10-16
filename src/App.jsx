@@ -31,13 +31,13 @@ const App = () => {
     }, [])
 
     const content = data.map ((e, i) => {
-        return <Post key={i} id={e.Post_ID} author={e.Author} date={e.Date} content={e.Content} />
+        return <Post key={i} id={e.Post_ID} row_id={e.row_id} author={e.Author} date={e.Date} content={e.Content} comments={e.Comments} likes={e.Likes}/>
     })
 
     return (
         <div className="ui container" style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'column-reverse',
             alignItems: 'center',
             justifyContent: 'center',
         }}>

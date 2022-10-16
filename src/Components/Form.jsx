@@ -17,7 +17,7 @@ const Form = ({ username, data, setData, closeForm }) => {
             method: 'post',
             url: 'https://v1.nocodeapi.com/tuxa4/google_sheets/ocxrytkzUDSFFJrd?tabId=Sheet1', // (1)
             params: {},
-            data: [[id, username, content, '{}', '{}', date]]
+            data: [[id, username, content, '[]', '[]', date]]
         }).then(function () {
             setLoading(false)
             setContent('')
