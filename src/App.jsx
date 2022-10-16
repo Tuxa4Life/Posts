@@ -6,6 +6,18 @@ import Form from "./Components/Form";
 const App = () => {
     const [data, setData] = useState([])
     const [formState, setFormState] = useState(false)
+    const [username, setUsername] = useState('')
+    const [render, reRender] = useState(false)
+
+    useEffect(() => {
+        if (!localStorage.getItem('username')) {
+            let username = prompt('Enter username')
+            localStorage.setItem('username', username)
+            setUsername(localStorage.getItem('username'))
+        } else {
+            setUsername(localStorage.getItem('username'))
+        }
+    }, [])
 
     useEffect(() => {
         axios({
@@ -17,7 +29,7 @@ const App = () => {
         }).catch(function (error) {
             console.log(error);
         })
-    }, [])
+    }, [render])
 
     const content = data.map ((e, i) => {
         return <Post key={i} id={e.Post_ID} author={e.Author} date={e.Date} content={e.Content} />
@@ -36,7 +48,13 @@ const App = () => {
                 right: '10px',
                 zIndex: '1',
             }}>Post</div>
-            { formState ? <Form data={data} setData={setData} closeForm={() => setFormState(false)}/> : null }
+            <div className="ui button" onClick={() => reRender(!render)} style={{
+                position: 'fixed',
+                top: '50px',
+                right: '10px',
+                zIndex: '1',
+            }}>Refresh</div>
+            { formState ? <Form username={username} data={data} setData={setData} closeForm={() => setFormState(false)}/> : null }
             { content }
         </div>
     )

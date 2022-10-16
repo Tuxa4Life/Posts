@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Form = ({ data, setData, closeForm }) => {
+const Form = ({ username, data, setData, closeForm }) => {
     const [content, setContent] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ const Form = ({ data, setData, closeForm }) => {
             method: 'post',
             url: 'https://v1.nocodeapi.com/tuxa4/google_sheets/ocxrytkzUDSFFJrd?tabId=Sheet1', // (1)
             params: {},
-            data: [[id, 'no_author', content, '{}', '{}', date]]
+            data: [[id, username, content, '{}', '{}', date]]
         }).then(function () {
             setLoading(false)
             setContent('')
@@ -25,7 +25,7 @@ const Form = ({ data, setData, closeForm }) => {
 
             // replication
             let replica = [...data]
-            replica.push({Post_ID: id, Author: 'no_author', Content: content, Likes: '{}', Comments: '{}', Date: date})
+            replica.push({Post_ID: id, Author: username, Content: content, Likes: '{}', Comments: '{}', Date: date})
             setData(replica)
         }).catch(function (error) {
             console.log(error);
