@@ -3,13 +3,15 @@ import axios from "axios";
 import Comments from "./PostParts/Comments";
 
 const Post = ({id, row_id, author, date, content, likes, comments}) => {
-    const [commentsArr, setCommentsArr] = useState([{}])
+    const [commentsArr, setCommentsArr] = useState([])
+    const [likesArr, setLikesArr] = useState([])
 
     const [comment, setComment] = useState('')
     const [commentState, setCommentState] = useState(false)
 
     useEffect(() => {
         setCommentsArr(JSON.parse(comments))
+        setLikesArr(JSON.parse(likes))
     }, [])
 
     const uploadComment = () => {
@@ -21,18 +23,33 @@ const Post = ({id, row_id, author, date, content, likes, comments}) => {
         setCommentsArr(tmpArr)
         setComment('')
 
-        console.log(commentsArr)
-
         axios({
             method: 'put',
             url: 'https://v1.nocodeapi.com/tuxa6/google_sheets/htizjhWfRQFGLCiw?tabId=Sheet1', 
             params: {},
             data: {"row_id": row_id, "Comments": JSON.stringify(tmpArr)}
-        }).then(function (response) {
+        }).then(function () {
             console.log({"row_id": row_id, "Comments": JSON.stringify(tmpArr)})
         }).catch(function (error) {
             console.log(error);
         })       
+    }
+
+    const uploadLike = () => {
+        let tmpArr = [...likesArr]
+        tmpArr.push(localStorage.getItem('username'))
+
+        setLikesArr(tmpArr)
+        axios({
+            method: 'put',
+            url: 'https://v1.nocodeapi.com/tuxa6/google_sheets/htizjhWfRQFGLCiw?tabId=Sheet1', 
+            params: {},
+            data: {"row_id": row_id, "Likes": JSON.stringify(tmpArr)}
+        }).then(function (response) {
+                console.log(response.data);
+        }).catch(function (error) {
+                console.log(error);
+        })
     }
 
     return (
@@ -51,9 +68,9 @@ const Post = ({id, row_id, author, date, content, likes, comments}) => {
                 </p>
             </div>
             <div className="content">
-                <span className="right floated">
+                <span className="right floated" onClick={uploadLike}>
                     <i className="heart outline like icon"></i>
-                    0 likes
+                    <span>{likesArr.length} <span>likes</span></span>
                 </span>
 
                 <span style={{cursor: 'pointer'}} onClick={() => setCommentState(!commentState)}>

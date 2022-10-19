@@ -3,6 +3,7 @@ import axios from "axios";
 import Post from "./Components/Post";
 import Form from "./Components/Form";
 
+
 const App = () => {
     const [data, setData] = useState([])
     const [formState, setFormState] = useState(false)
@@ -17,6 +18,7 @@ const App = () => {
             setUsername(localStorage.getItem('username'))
         }
     }, [])
+    
 
     useEffect(() => {
         axios({
